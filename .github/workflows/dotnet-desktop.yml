@@ -37,21 +37,16 @@ jobs:
         pwd
         ls -R
         
-    # 获取版本号（修改后）
+    # 获取版本号
     - name: Get Version
       id: get_version
       shell: pwsh
       run: |
-        # 使用Get-Content和正则表达式来查找版本号
-        $content = Get-Content "AboutWindow.xaml" -Raw
-        if ($content -match 'Text="Text="版本\s*([\d\.]+)"') {
-            $version = $matches[1]
-            echo "VERSION=$version" >> $env:GITHUB_ENV
-            echo "Version found: $version"
-        } else {
-            echo "Version not found!"
-            exit 1
-        }
+        # 从version.txt文件读取版本号
+        $version = Get-Content "./Properties/version.txt" -Raw
+        $version = $version.Trim()
+        echo "VERSION=$version" >> $env:GITHUB_ENV
+        echo "Version found: $version"
 
     # 恢复依赖
     - name: Restore dependencies
