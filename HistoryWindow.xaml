@@ -1,0 +1,119 @@
+<Window x:Class="JsonZipToolWPF.HistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="历史记录" Height="600" Width="800"
+        WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <materialDesign:ColorZone Mode="PrimaryMid" 
+                                  Padding="16"
+                                  MouseLeftButtonDown="ColorZone_MouseLeftButtonDown">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="历史记录"
+                           Grid.Column="0"
+                           FontSize="16"
+                           VerticalAlignment="Center"/>
+
+                <Button Grid.Column="2"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        x:Name="CloseButton"
+                        Click="CloseButton_Click"
+                        Width="40"
+                        Height="40"
+                        Padding="0"
+                        Margin="0,-8,-8,-8">
+                    <materialDesign:PackIcon Kind="Close" 
+                                           Width="20" 
+                                           Height="20"
+                                           Foreground="White"/>
+                </Button>
+            </Grid>
+        </materialDesign:ColorZone>
+
+        <ListView x:Name="HistoryListView" 
+                  Grid.Row="1" 
+                  Margin="16"
+                  SelectionChanged="HistoryListView_SelectionChanged"
+                  VirtualizingPanel.IsVirtualizing="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
+                  VirtualizingPanel.ScrollUnit="Pixel"
+                  ScrollViewer.CanContentScroll="True">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="操作类型" Width="100" DisplayMemberBinding="{Binding OperationType}"/>
+                    <GridViewColumn Header="转换时间" Width="150" DisplayMemberBinding="{Binding ConversionTime, StringFormat=yyyy-MM-dd HH:mm:ss}"/>
+                    <GridViewColumn Header="输入内容" Width="250">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding InputText}" 
+                                         TextTrimming="CharacterEllipsis"
+                                         ToolTip="{Binding InputText}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="输出内容" Width="250">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding OutputText}" 
+                                         TextTrimming="CharacterEllipsis"
+                                         ToolTip="{Binding OutputText}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Button Grid.Row="1"
+                Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                ToolTip="清空历史记录"
+                x:Name="ClearHistoryButton"
+                Click="ClearHistoryButton_Click"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,24,24">
+            <materialDesign:PackIcon Kind="Delete" Height="24" Width="24"/>
+        </Button>
+
+        <TextBox x:Name="DetailTextBoxIn"
+                 Grid.Row="2"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                 materialDesign:HintAssist.Hint="输入内容"
+                 Margin="16,8"
+                 Height="100"
+                 TextWrapping="Wrap"
+                 AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Auto"
+                 IsReadOnly="True"/>
+
+        <TextBox x:Name="DetailTextBoxOut"
+                 Grid.Row="3"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                 materialDesign:HintAssist.Hint="输出内容"
+                 Margin="16,8,16,16"
+                 Height="100"
+                 TextWrapping="Wrap"
+                 AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Auto"
+                 IsReadOnly="True"/>
+
+        <materialDesign:Snackbar x:Name="TipsBar"
+                                 Grid.Row="0"
+                                 Grid.RowSpan="4"
+                                 HorizontalAlignment="Center"
+                                 MessageQueue="{materialDesign:MessageQueue}"/>
+    </Grid>
+</Window> 
