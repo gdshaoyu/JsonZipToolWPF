@@ -15,15 +15,15 @@ jobs:
         fetch-depth: 0
 
     # 缓存 .NET SDK
-    - name: Cache .NET SDK
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~\.dotnet
-          ~\.nuget\packages
-        key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj') }}
-        restore-keys: |
-          ${{ runner.os }}-dotnet-
+    # - name: Cache .NET SDK
+    #   uses: actions/cache@v3
+    #   with:
+    #     path: |
+    #       ~\.dotnet
+    #       ~\.nuget\packages
+    #     key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj') }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-dotnet-
 
     # 安装 .NET 9
     - name: Setup .NET
@@ -44,7 +44,7 @@ jobs:
       run: |
         # 使用Get-Content和正则表达式来查找版本号
         $content = Get-Content "AboutWindow.xaml" -Raw
-        if ($content -match 'Text="版本：([\d\.]+)"') {
+        if ($content -match 'Text="Text="版本\s*([\d\.]+)"') {
             $version = $matches[1]
             echo "VERSION=$version" >> $env:GITHUB_ENV
             echo "Version found: $version"
@@ -60,7 +60,7 @@ jobs:
     # 发布应用
     - name: Publish
       run: |
-        dotnet publish JsonZipToolWPF/JsonZipToolWPF.csproj `
+        dotnet publish JsonZipToolWPF.csproj `
           -c Release `
           -r win-x64 `
           --self-contained true `
