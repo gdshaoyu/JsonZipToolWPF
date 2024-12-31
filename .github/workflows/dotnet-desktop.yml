@@ -1,5 +1,6 @@
 name: Build and Release
-
+permissions:
+  contents: write  
 on:
   push:
     branches: [ "master" ]
@@ -14,28 +15,14 @@ jobs:
       with:
         fetch-depth: 0
 
-    # 缓存 .NET SDK
-    # - name: Cache .NET SDK
-    #   uses: actions/cache@v3
-    #   with:
-    #     path: |
-    #       ~\.dotnet
-    #       ~\.nuget\packages
-    #     key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj') }}
-    #     restore-keys: |
-    #       ${{ runner.os }}-dotnet-
+
 
     # 安装 .NET 9
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
-        dotnet-quality: 'preview'
-
-    - name: Check directory structure
-      run: |
-        pwd
-        ls -R
+     #   dotnet-quality: 'preview'
         
     # 获取版本号
     - name: Get Version
@@ -76,7 +63,7 @@ jobs:
         name: Release ${{ env.VERSION }}
         tag_name: v${{ env.VERSION }}
         body: |
-          JSON压缩工具 v${{ env.VERSION }}
+          JSON压缩解压工具 v${{ env.VERSION }}
           
           ### 系统要求
           - Windows 10/11 64位
