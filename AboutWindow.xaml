@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="关于" Height="500" Width="400"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner"
+        Icon="/Resources/favicon.ico">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -64,7 +65,7 @@
                     <TextBlock Text="功能特点：" 
                                FontWeight="Bold"
                                Margin="0,16,0,8"/>
-                    
+                    <TextBlock Text="• 99%代码由cursor AI 完成" Margin="16,4,0,0"/>
                     <TextBlock Text="• JSON数据压缩与解压" Margin="16,4,0,0"/>
                     <TextBlock Text="• JSON格式化" Margin="16,4,0,0"/>
                     <TextBlock Text="• 支持大数据处理" Margin="16,4,0,0"/>
