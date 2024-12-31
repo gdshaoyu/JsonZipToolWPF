@@ -32,15 +32,26 @@ jobs:
         dotnet-version: 9.0.x
         dotnet-quality: 'preview'
 
-    # 获取版本号
+    - name: Check directory structure
+      run: |
+        pwd
+        ls -R
+        
+    # 获取版本号（修改后）
     - name: Get Version
       id: get_version
       shell: pwsh
       run: |
-        # 修改为正确的相对路径
-        $version = Select-String -Path "JsonZipToolWPF/AboutWindow.xaml" -Pattern 'Text="版本：(.*?)"' | ForEach-Object { $_.Matches.Groups[1].Value }
-        echo "VERSION=$version" >> $env:GITHUB_ENV
-        echo "Version found: $version"
+        # 使用Get-Content和正则表达式来查找版本号
+        $content = Get-Content "JsonZipToolWPF\AboutWindow.xaml" -Raw
+        if ($content -match 'Text="版本：([\d\.]+)"') {
+            $version = $matches[1]
+            echo "VERSION=$version" >> $env:GITHUB_ENV
+            echo "Version found: $version"
+        } else {
+            echo "Version not found!"
+            exit 1
+        }
 
     # 恢复依赖
     - name: Restore dependencies
