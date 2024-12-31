@@ -43,7 +43,7 @@ jobs:
       shell: pwsh
       run: |
         # 使用Get-Content和正则表达式来查找版本号
-        $content = Get-Content "JsonZipToolWPF\AboutWindow.xaml" -Raw
+        $content = Get-Content "AboutWindow.xaml" -Raw
         if ($content -match 'Text="版本：([\d\.]+)"') {
             $version = $matches[1]
             echo "VERSION=$version" >> $env:GITHUB_ENV
