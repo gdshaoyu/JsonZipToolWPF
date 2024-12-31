@@ -14,6 +14,17 @@ jobs:
       with:
         fetch-depth: 0
 
+    # 缓存 .NET SDK
+    - name: Cache .NET SDK
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~\.dotnet
+          ~\.nuget\packages
+        key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-dotnet-
+
     # 安装 .NET 9
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -26,8 +37,8 @@ jobs:
       id: get_version
       shell: pwsh
       run: |
-        # 从AboutWindow.xaml中提取版本号
-        $version = Select-String -Path "./JsonZipToolWPF/AboutWindow.xaml" -Pattern 'Text="版本：(.*?)"' | ForEach-Object { $_.Matches.Groups[1].Value }
+        # 修改为正确的相对路径
+        $version = Select-String -Path "JsonZipToolWPF/AboutWindow.xaml" -Pattern 'Text="版本：(.*?)"' | ForEach-Object { $_.Matches.Groups[1].Value }
         echo "VERSION=$version" >> $env:GITHUB_ENV
         echo "Version found: $version"
 
