@@ -1,6 +1,6 @@
 using System.Windows;
-using System.IO;
 using System.ComponentModel;
+using JsonZipToolWPF.Utils;
 
 namespace JsonZipToolWPF
 {
@@ -31,22 +31,7 @@ namespace JsonZipToolWPF
 
         private void LoadVersion()
         {
-            try
-            {
-                string versionFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Properties", "version.txt");
-                if (File.Exists(versionFile))
-                {
-                    Version = File.ReadAllText(versionFile).Trim();
-                }
-                else
-                {
-                    Version = "未知版本";
-                }
-            }
-            catch
-            {
-                Version = "未知版本";
-            }
+            Version = VersionHelper.GetVersion();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
